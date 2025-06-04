@@ -60,8 +60,17 @@ is_vfs_connected() {
     pgrep -f vfs-worker >/dev/null
 }
 
-is_vscode_connected() {
+is_vscode_connected_ubuntu() {
     pgrep -u $USER -f .vscode-server/bin/ -a | grep -v -F 'shellIntegration-bash.sh' >/dev/null
+}
+is_vscode_connected_al2() {
+    pgrep -u $USER -f .vscode-server/bin/ -a | grep -v -F 'shellIntegration-bash.sh' >/dev/null
+}
+is_vscode_connected_al2023() {
+    pgrep -u $USER -f .vscode-server/cli/servers/ -a | grep -v -F 'shellIntegration-bash.sh' >/dev/null
+}
+is_vscode_connected() {
+    is_vscode_connected_ubuntu &> /dev/null || is_vscode_connected_al2 &> /dev/null || is_vscode_connected_al2023 &> /dev/null
 }
 
 if is_shutting_down; then
